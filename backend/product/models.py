@@ -1,6 +1,18 @@
+import os
+import uuid
+
 from django.contrib.auth.models import User
 from django.db import models
 
+
+def image_file_path(instance, filename):
+    """
+    Generate filename and filepath for image
+    """
+    ext = filename.split('.')[-1]
+    filename = f'{uuid.uuid4()}.{ext}'
+
+    return os.path.join('images/', filename)
 
 class Product(models.Model):
     """
@@ -8,7 +20,7 @@ class Product(models.Model):
     """
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     mane = models.CharField(max_length=200, null=True, blank=True)
-    # image = models
+    image = models.ImageField(null=True, blank=True)
     brand = models.CharField(max_length=200, null=True, blank=True)
     category = models.CharField(max_length=200, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
