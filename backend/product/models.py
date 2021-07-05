@@ -19,8 +19,8 @@ class Product(models.Model):
     Model of product
     """
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    mane = models.CharField(max_length=200, null=True, blank=True)
-    image = models.ImageField(null=True, blank=True)
+    name = models.CharField(max_length=200, null=True, blank=True)
+    image = models.ImageField(null=True, blank=True, upload_to=image_file_path)
     brand = models.CharField(max_length=200, null=True, blank=True)
     category = models.CharField(max_length=200, null=True, blank=True)
     description = models.TextField(null=True, blank=True)

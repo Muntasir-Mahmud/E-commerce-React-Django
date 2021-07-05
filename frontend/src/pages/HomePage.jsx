@@ -9,7 +9,7 @@ function HomePage() {
     useEffect(()=> {
 
         async function fetchProducts() {
-            const {data} =await axios.get('/api/products/')
+            const {data} =await axios.get('/api/v1/products/')
             setProducts(data)
         }
 
