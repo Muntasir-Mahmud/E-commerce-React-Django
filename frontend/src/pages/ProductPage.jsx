@@ -10,13 +10,14 @@ function ProductPage(props) {
     useEffect(()=> {
 
         async function fetchProduct() {
-            const {data} =await axios.get(`/api/products/${props.match.params.id}`)
+            const {data} =await axios.get(`/api/v1/product/${props.match.params.id}`)
             setProduct(data)
         }
 
         fetchProduct()
 
-    }, [props.match.params.id])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
     
     return (
         <div>
