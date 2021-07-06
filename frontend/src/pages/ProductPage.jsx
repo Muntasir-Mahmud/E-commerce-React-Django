@@ -16,8 +16,7 @@ function ProductPage(props) {
 
         fetchProduct()
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [props.match.params.id])
     
     return (
         <div>
@@ -32,7 +31,7 @@ function ProductPage(props) {
                             <h3>{product.name}</h3>
                         </ListGroup.Item>
                         <ListGroup.Item>
-                            <Rating value={product.rating} text={`${product.numReviews} reviews`} color={'#f8e825'} />
+                            <Rating value={product.rating} text={`${product.num_reviews} reviews`} color={'#f8e825'} />
                         </ListGroup.Item>
                         <ListGroup.Item>
                             Price: ${product.price}
