@@ -7,7 +7,7 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Rating from '../components/Rating';
 
-function ProductPage({match}) {
+function ProductPage({ match, history }) {
 
     const [quantity, setQuantity] = useState(1)
     
@@ -20,6 +20,10 @@ function ProductPage({match}) {
         dispatch(listProductDetails(match.params.id))
 
     }, [dispatch, match])
+
+    const addToCartHandler = () => {
+        history.push(`/cart/${match.params.id}?qty=%${quantity}`)
+    }
     
     return (
         <div>
@@ -93,7 +97,13 @@ function ProductPage({match}) {
                                         )}
 
                                         <ListGroup.Item>
-                                            <Button className='btn-block' disabled={product.count_in_stock === 0} type='button'>Add to Cart</Button>
+                                            <Button
+                                                onClick={addToCartHandler}
+                                                className='btn-block'
+                                                disabled={product.count_in_stock === 0}
+                                                type='button'
+                                                >
+                                                    Add to Cart</Button>
                                         </ListGroup.Item>
                                     </ListGroup>
                                 </Card>
