@@ -4,14 +4,15 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .serializers import UserSerializer
+from .serializers import UserSerializer, UserSerializerWithToken
 
 
 class MyTokenObtainSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
-        data['username'] = self.user.username
-        data['email'] = self.user.email
+        serializer = UserSerializerWithToken(self.user).data
+        for key, value in serializer.items():
+            data[key] = value
         return data
 
 class MyTokenObtainView(TokenObtainPairView):
