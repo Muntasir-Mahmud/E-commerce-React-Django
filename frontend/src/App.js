@@ -6,6 +6,7 @@ import CartPage from './pages/CartPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import ProductPage from './pages/ProductPage';
+import ProfilePage from './pages/ProfilePage';
 import RegisterPage from './pages/RegisterPage';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path='/' component={HomePage} exact />
           <Route path='/login' component={LoginPage} />
           <Route path='/register' component={RegisterPage} />
+          <Route path='/profile' component={ProfilePage} />
           <Route path='/product/:id' component={ProductPage} />
           <Route path='/cart/:id?' component={CartPage} />
         </Container>

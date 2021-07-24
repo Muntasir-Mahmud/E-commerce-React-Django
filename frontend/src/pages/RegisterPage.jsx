@@ -32,8 +32,9 @@ function RegisterPage({ location, history }) {
         e.preventDefault()
         if (password !== confirmPassword) {
             setMessage('Passwords do not match')
+        } else {
+            dispatch(register(email, name, password))
         }
-        dispatch(register(email, name, password))
     }
     return (
         <FormContainer>
@@ -95,7 +96,8 @@ function RegisterPage({ location, history }) {
                     Register
                 </Button>
 
-                <Row className='py-3'>
+            </Form>
+            <Row className='py-3'>
                     <Col>
                     
                         Have an account? <Link 
@@ -103,7 +105,6 @@ function RegisterPage({ location, history }) {
                                     >Sign In</Link>
                     </Col>
                 </Row>
-            </Form>
             
         </FormContainer>
     )
