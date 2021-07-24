@@ -63,12 +63,17 @@ export const register = (email, name, password) => async (dispatch) => {
 
         const { data } = await axios.post(
             '/api/v1/users/register/',
-            {'username': email, 'name': name, 'password': password},
+            {'email': email, 'name': name, 'password': password},
             config
         )
 
         dispatch({
             type: USER_REGISTER_SUCCESS,
+            payload: data
+        })
+
+        dispatch({
+            type: USER_LOGIN_SUCCESS,
             payload: data
         })
 
