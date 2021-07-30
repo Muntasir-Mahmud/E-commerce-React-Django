@@ -25,7 +25,7 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.createdAt)
+        return str(self.created_at)
 
 
 class OrderItem(models.Model):

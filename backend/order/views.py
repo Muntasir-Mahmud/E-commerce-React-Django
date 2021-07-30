@@ -9,7 +9,7 @@ from .serializers import OrderSerializer
 
 
 @api_view(['POST'])
-@permission_classes(['IsAuthenticated'])
+@permission_classes([IsAuthenticated])
 def add_order_items(request):
     user = request.user
     data = request.data
@@ -34,7 +34,6 @@ def add_order_items(request):
             city=data['shippingAddress']['city'],
             postal_code=data['shippingAddress']['postalCode'],
             country=data['shippingAddress']['country'],
-            shipping_price=data['shippingAddress']['shippingPrice'],
         )
 
         # (3) Create order items and set order to orderItem relationship
@@ -45,7 +44,7 @@ def add_order_items(request):
                 product=product,
                 order=order,
                 name=product.name,
-                quantity=item['quantity'],
+                quantity=item['qty'],
                 price=item['price'],
                 image= product.image.url,
 
@@ -55,5 +54,5 @@ def add_order_items(request):
             product.count_in_stock -= item.quantity
             product.save()
 
-    serializer = OrderSerializer(order, many=True)
-    return Response(serializer.data)
+        serializer = OrderSerializer(order, many=False)
+        return Response(serializer.data)
