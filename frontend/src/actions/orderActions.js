@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { CART_CLEAR_ITEMS } from '../constants/cartConstants';
 import {
     ORDER_CREATE_FAIL, ORDER_CREATE_REQUEST,
     ORDER_CREATE_SUCCESS
@@ -25,12 +26,19 @@ export const createOrder = (order) => async (dispatch, getState) => {
             `/api/v1/order/add/`,
             order,
             config
-        )
+        );
 
         dispatch({
             type: ORDER_CREATE_SUCCESS,
             payload: data
-        })
+        });
+
+        dispatch({
+            type: CART_CLEAR_ITEMS,
+            payload: data
+        });
+
+        localStorage.removeItem('cartItems');
 
     } catch (error) {
         dispatch({

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { createOrder } from '../actions/orderActions';
 import CheckoutSteps from '../components/CheckoutSteps';
 import Message from '../components/Message';
+import { ORDER_CREATE_RESET } from '../constants/orderConstants';
 
 function PlaceOrderPage({ history }) {
     
@@ -26,6 +27,7 @@ function PlaceOrderPage({ history }) {
     useEffect(() => {
         if (success){
             history.push(`/order/${order.id}`)
+            dispatch({ type: ORDER_CREATE_RESET})
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [history, success])
