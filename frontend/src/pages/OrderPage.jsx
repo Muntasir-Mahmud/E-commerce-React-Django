@@ -38,6 +38,8 @@ function OrderPage({ match }) {
                     <ListGroup variant='flush'>
                         <ListGroup.Item>
                             <h2>Shipping</h2>
+                            <p><strong>Name:</strong>{order.user.name}</p>
+                            <p><strong>Email:</strong><a href={`mailto:${order.user.email}`}>{order.user.email}</a></p>
                             <p>
                                 <strong>Shipping: </strong>
                                 {order.shippingAddress.address}, {order.shippingAddress.city}
@@ -46,14 +48,24 @@ function OrderPage({ match }) {
                                 {'  '}
                                 {order.shippingAddress.country}
                             </p>
+                            {order.is_delivered ? (
+                                <Message variant='success'>Delivered on {order.delivered_at}</Message>
+                            ) : (
+                                <Message variant='warning'>Not Delivered</Message>
+                            )}
                         </ListGroup.Item>
 
                         <ListGroup.Item>
                             <h2>Payment Method</h2>
                             <p>
                                 <strong>Method: </strong>
-                                {order.paymentMethod}
+                                {order.payment_method}
                             </p>
+                            {order.is_paid ? (
+                                <Message variant='success'>Paid on {order.paid_at}</Message>
+                            ) : (
+                                <Message variant='warning'>Not Paid</Message>
+                            )}
                         </ListGroup.Item>
 
                         <ListGroup.Item>
