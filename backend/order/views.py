@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import set_rollback
 
 from .models import Order, OrderItem, ShippingAddress
 from .serializers import OrderSerializer
@@ -56,3 +57,22 @@ def add_order_items(request):
 
         serializer = OrderSerializer(order, many=False)
         return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_order_by_id(request, pk):
+    user = request.user
+    try:
+        order = Order.objects.get(pk=pk)
+        if user.is_staff or order.user == user:
+            serializer = OrderSerializer(order, many=False)
+            return Response(serializer.data)
+        else:
+            Response({
+                'detail': 'Not authorized to view this order'
+            }, status=status.HTTP_400_BAD_REQUEST)
+    except:
+        return Response({
+            'detail': 'Order does not exist'
+        }, status=status.HTTP_400_BAD_REQUEST)
