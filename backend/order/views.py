@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from product.models import Product
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
@@ -76,3 +78,15 @@ def get_order_by_id(request, pk):
         return Response({
             'detail': 'Order does not exist'
         }, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def update_order_to_paid(request, pk):
+    order = Order.objects.get(pk=pk)
+
+    order.is_paid = True
+    order.paid_at = datetime.now()
+    order.save()
+
+    return Response('Order was paid')
