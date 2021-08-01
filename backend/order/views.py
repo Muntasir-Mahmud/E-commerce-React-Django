@@ -80,7 +80,7 @@ def get_order_by_id(request, pk):
         }, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET'])
+@api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 def update_order_to_paid(request, pk):
     order = Order.objects.get(pk=pk)
