@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import { Card, Col, Image, ListGroup, Row } from 'react-bootstrap';
+import { PayPalButton } from 'react-paypal-button-v2';
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
-import { getOrderDetails } from '../actions/orderActions';
+import { getOrderDetails, payOrder } from '../actions/orderActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import { ORDER_PAY_RESET } from '../constants/orderConstants';
 
 function OrderPage({ match }) {
 
@@ -24,6 +26,11 @@ function OrderPage({ match }) {
             dispatch(getOrderDetails(orderId))
         }
     }, [dispatch, order, orderId])
+
+    const successPaymentHandler = (paymentResult='success') => {
+        dispatch({ type: ORDER_PAY_RESET})
+        dispatch(payOrder(orderId, paymentResult))
+    }
 
 
     return loading ? (
@@ -125,6 +132,17 @@ function OrderPage({ match }) {
                                     <Col>Total:</Col>
                                     <Col>${order.total_price}</Col>
                                 </Row>
+                            </ListGroup.Item>
+
+                            <ListGroup.Item>
+                                {!order.is_paid && (
+                                    <ListGroup.Item>
+                                        <PayPalButton
+                                            amount={order.total_price}
+                                            onClick={successPaymentHandler}
+                                        />
+                                    </ListGroup.Item>
+                                )}
                             </ListGroup.Item>
 
                         </ListGroup>
