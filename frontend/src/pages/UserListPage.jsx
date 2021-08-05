@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Button, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from 'react-router-bootstrap';
-import { listUsers } from '../actions/userActions';
+import { deleteUser, listUsers } from '../actions/userActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
@@ -16,16 +16,22 @@ function UserListPage({ history }) {
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
 
+    const userDelete = useSelector(state => state.userDelete)
+    const { success:successDelete } = userDelete
+
     useEffect(() => {
         if (userInfo && userInfo.is_admin){
             dispatch(listUsers());
         } else {
             history.push('/login')
         }
-    }, [dispatch, history, userInfo])
+    }, [dispatch, history, userInfo, successDelete])
 
     const deleteHandler = (id) => {
-        console.log(id)
+        if(window.confirm('Are you sure you want to delete this user?')){
+            dispatch(deleteUser(id));
+        }
+
     } 
 
     return (
