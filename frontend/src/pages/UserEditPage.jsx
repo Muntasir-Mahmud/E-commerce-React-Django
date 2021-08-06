@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getUserDetails } from '../actions/userActions';
+import { getUserDetails, updateUser } from '../actions/userActions';
 import FormContainer from '../components/FormContainer';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import { USER_UPDATE_RESET } from '../constants/userConstants';
 
 function UserEditPage({ match, history }) {
 
@@ -19,19 +20,30 @@ function UserEditPage({ match, history }) {
 
     const userDetails = useSelector(state => state.userDetails)
     const { loading, error, user } = userDetails
+    
+    const userUpdate = useSelector(state => state.userUpdate)
+    const { loading:loadingUpdate, error:errorUpdate, successUpdate } = userUpdate
 
     useEffect(() => {
-        if(!user.name || user.id !== Number(userId)) {
-            dispatch(getUserDetails(userId))
-        } else {
-            setName(user.name)
-            setEmail(user.email)
-            setIsAdmin(user.isAdmin)
+        if (successUpdate) {
+            dispatch({type: USER_UPDATE_RESET})
+            history.push('/admin/userList')
+        } else{
+            if(!user.name || user.id !== Number(userId)) {
+                dispatch(getUserDetails(userId))
+            } else {
+                setName(user.name)
+                setEmail(user.email)
+                setIsAdmin(user.isAdmin)
+            }
         }
-    }, [dispatch, user.email, user.id, user.isAdmin, user.name, userId])
+
+        
+    }, [dispatch, history, successUpdate, user.email, user.id, user.isAdmin, user.name, userId])
 
     const submitHandler = (e) => {
         e.preventDefault()
+        dispatch(updateUser({id:user.id, name, email, isAdmin}))
 
     }
     return (
@@ -41,6 +53,8 @@ function UserEditPage({ match, history }) {
             </Link>
             <FormContainer>
                 <h1>Edit User</h1>
+                {loadingUpdate && <Loader/>}
+                {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
                 {loading? <Loader/> : error? <Message variant='danger'>{error}</Message> 
                 : (
                     <Form onSubmit={submitHandler}>
