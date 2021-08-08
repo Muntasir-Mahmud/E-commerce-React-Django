@@ -8,6 +8,7 @@ import LoginPage from './pages/LoginPage';
 import OrderPage from './pages/OrderPage';
 import PaymentPage from './pages/PaymentPage';
 import PlaceOrderPage from './pages/PlaceOrderPage';
+import ProductListPage from './pages/ProductListPage';
 import ProductPage from './pages/ProductPage';
 import ProfilePage from './pages/ProfilePage';
 import RegisterPage from './pages/RegisterPage';
@@ -34,6 +35,7 @@ function App() {
 
           <Route path='/admin/userList' component={UserListPage} />
           <Route path='/admin/user/:id/edit' component={UserEditPage} />
+          <Route path='/admin/productList' component={ProductListPage} />
         </Container>
       </main>
       <Footer />
