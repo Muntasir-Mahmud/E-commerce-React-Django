@@ -6,16 +6,18 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Product from '../components/Product';
 
-function HomePage() {
+function HomePage({ history }) {
     
     const dispatch = useDispatch();
     const productList = useSelector(state => state.productList) // productList from store.js which will call productListReducer
     const { loading, products, error } = productList
 
-    useEffect(()=> {
-        dispatch(listProducts())
+    let keyword = history.location.search
 
-    }, [dispatch])
+    useEffect(()=> {
+        dispatch(listProducts(keyword))
+
+    }, [dispatch, keyword])
     
     return (
         <div>
